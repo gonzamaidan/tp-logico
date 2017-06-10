@@ -60,11 +60,87 @@ bienAsignada(Persona, Proyecto) :-
 /* Punto 3 Validacion de proyectos */
 estaBienDefinido(Proyecto):-
 	proyecto(Proyecto),
-	forall(trabaja(Persona,Proyecto), bienAsignada(Persona,Proyecto)).
+	forall(trabaja(Persona,Proyecto), bienAsignada(Persona,Proyecto)),
+	findall(Lider, liderDeProyecto(Proyecto, Lider), Lideres),
+	length(Lideres, 1).
+
+liderDeProyecto(Proyecto, Persona) :-
+	trabaja(Persona, Proyecto),
+	rol(Persona, projectLeader).
 	
 proyecto(Proyecto) :- requiere(Proyecto,_).
 	
-	
+/* 2-Casos de Prueba */
+
+/*
+1-Al consultar los lenguajes del proyecto Sumatra deben estar en el universo de soluciones los lenguajes Java y .Net
+?- requiere(sumatra, Lenguaje).
+Lenguaje = java ;
+Lenguaje = net.
+
+2-No es cierto que haya otro lenguaje distinto de COBOL para el proyecto Prometeus
+?- forall(requiere(prometeus,Lenguaje),Lenguaje == cobol).
+true.
+
+3-Fernando trabaja en el proyecto Prometeus
+?- trabaja(fernando, prometeus).
+true.
+
+4-Santiago trabaja en el proyecto Prometeus
+?- trabaja(santiago, prometeus).
+true.
+
+5-El universo de programadores del proyecto Sumatra se compone de Julieta, Marcos y Andrés
+?- trabaja(Personas, sumatra).
+Personas = julieta ;
+Personas = marcos ;
+Personas = andres.
+
+6-En el proyecto Sumatra Julieta, Marcos y Andrés están bien asignados.
+?- bienAsignada(julieta, sumatra).
+true .
+?- bienAsignada(marcos, sumatra).
+true .
+?- bienAsignada(andres, sumatra).
+true .
+
+7-En el proyecto Prometeus solo Fernando está bien asignado.
+?- bienAsignada(Persona, prometeus).
+Persona = fernando ;
+Persona = fernando ;
+false.
+
+8-La lista de personas bien asignadas a algún proyecto se compone de Julieta, Marcos, Andrés y Fernando
+?- bienAsignada(Persona, _).
+Persona = fernando ;
+Persona = julieta ;
+Persona = marcos ;
+Persona = fernando ;
+Persona = andres ;
+false.
+
+9-Los proyectos que tienen a alguien bien asignado es el universo conformado por Prometeus y Sumatra.
+?- bienAsignada(_, Proyecto).
+Proyecto = prometeus ;
+Proyecto = sumatra ;
+Proyecto = sumatra ;
+Proyecto = prometeus ;
+Proyecto = sumatra ;
+false.
+
+10-La lista de proyectos bien definidos incluye al proyecto Sumatra
+?- estaBienDefinido(Proyecto).
+Proyecto = sumatra .
+
+11-El proyecto Prometeus está mal definido
+?- estaBienDefinido(prometeus).
+false.
+
+12-La lista de proyectos mal definidos está formado por un conjunto con un solo proyecto: Prometeus
+
+
+
+*/
 	
 
 
