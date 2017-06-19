@@ -210,17 +210,15 @@ gradoSeniority(correctiva(_,brainfuck),4).
 gradoSeniority(algoritmica(Lineas),Puntaje) :-
 	Puntaje is Lineas / 10.
 	
+persona(Persona) :- 
+	trabaja(Persona,_).
+
 seniority(Persona,Puntaje) :-
-	tarea(Persona,Tarea),
-	gradoSeniority(Tarea,Puntaje).
+	persona(Persona),
+	findall(PuntajeTarea,(tarea(Persona,Tarea), gradoSeniority(Tarea,PuntajeTarea)), Puntajes),
+	sumlist(Puntajes, Puntaje).
 
-seniority(Persona,PuntajeTotal) :-
-	tarea(Persona,Tarea),
-	gradoSeniority(Tarea,PuntajeIntermedio),
-	seniority(Persona, PuntajeRestante),
-	PuntajeTotal is PuntajeIntermedio + PuntajeRestante.
 	
-
 :- begin_tests(programadores).
 
 % ... tests anteriores ...
