@@ -219,6 +219,73 @@ seniority(Persona,Puntaje) :-
 	sumlist(Puntajes, Puntaje).
 
 	
+/* Casos de prueba
+* Sobre el punto 4: ¿Te copás?
+1-Saber si Fernando es copado con Santiago. Esto es correcto.
+?- esCopado(fernando, santiago).
+true
+
+2-Fernando no es copado con Julieta.
+?- esCopado(fernando, julieta).
+false.
+
+3-Fernando le puede enseñar COBOL a Santiago, Julieta, Marcos y Andrés.
+?- lePuedeEnseniar(fernando, A, cobol).
+A = santiago ;
+A = julieta ;
+A = marcos ;
+A = andres ;
+false.
+
+4-Es falso que Fernando le puede enseñar Haskell a alguien.
+?- lePuedeEnseniar(fernando,_, haskell).
+false.
+
+5-A Andrés le pueden enseñar Java Fernando, Julieta y Santiago.
+?- lePuedeEnseniar(Maestro, andres, java).
+Maestro = fernando ;
+Maestro = santiago ;
+Maestro = julieta ;
+false.
+
+6-Fernando puede enseñarle COBOL, Visual Basic y Java a alguna persona.
+?- lePuedeEnseniar(fernando,_,Lenguaje).
+Lenguaje = cobol ;
+Lenguaje = visualBasic ;
+Lenguaje = cobol ;
+Lenguaje = visualBasic ;
+Lenguaje = cobol ;
+Lenguaje = visualBasic ;
+Lenguaje = cobol ;
+Lenguaje = visualBasic ;
+Lenguaje = java ;
+false.
+
+7-Marcos no puede enseñar nada a nadie (¡¡perdón Marcos!!).
+?- lePuedeEnseniar(marcos,_,_).
+false.
+
+* Sobre el Punto 5: Seniority
+
+1-Fernando tiene 24 de seniority.
+?- seniority(fernando, 24).
+true.
+
+2-Se debe poder consultar quiénes tienen grado 0 de seniority, que es la lista compuesta por Santiago y Andrés.
+?- seniority(Persona, 0).
+Persona = santiago ;
+Persona = andres.
+
+3-Julieta no tiene seniority 6.
+?- seniority(julieta,6).
+false.
+
+4-Julieta tiene seniority 7.
+?- seniority(julieta,7).
+true.
+
+*/
+	
 :- begin_tests(programadores).
 
 % ... tests anteriores ...
